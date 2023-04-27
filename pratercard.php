@@ -4,15 +4,24 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
+        <style>
+            *{
+                font-family:sans-serif;
+                font-size: small;
+            }
+        </style>
         <title>Pratercard</title>
     </head>
     <body>
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-            <input type="file" name="userfile[]" webkitdirectory multiple>
-            <br>
-            <input type="hidden" name="form_folder" value="upload">
-            <input type="submit" value="Submit">
+        <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
+            <div class="input-group w-75 mx-auto my-5">
+                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="userfile[]" webkitdirectory multiple>
+                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
+                <input type="hidden" name="form_folder" value="upload">
+            </div>
         </form>
+
         <?php
             require_once __DIR__.'/vendor/autoload.php';
 
@@ -72,7 +81,7 @@
                     $emailAdress = $emailAdress[1];
 
 
-                    echo '<table border=1 id="table">';
+                    echo '<table class="table table-hover m-3">';
                     echo '<tr>';
                     echo '<th>Typ</th>';
                     echo '<th>Kartennummer</th>';
@@ -124,5 +133,6 @@
                 }
             }
             ?>
+    <script src="./js/bootstrap.min.js"></script>
     </body>
 </html>
