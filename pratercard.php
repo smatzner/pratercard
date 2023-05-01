@@ -33,6 +33,10 @@
                             preg_match('/\d{16}/',$filename,$matches);
                             array_push($vouchers,$matches);
                         }
+                        if(str_contains($filename,'Adrenalincard_voucher')){
+                            preg_match('/\d{10}/',$filename,$matches);
+                            array_push($vouchers,$matches);
+                        }
                     }
 
                     foreach($_FILES['userfile']['full_path'] as $k => $v){
