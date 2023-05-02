@@ -14,16 +14,19 @@
         <title>Pratercard</title>
     </head>
     <body>
-        <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
+        <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="uploadForm">
             <div class="input-group w-75 mx-auto my-5">
-                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="userfile[]" webkitdirectory multiple>
-                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
+                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="submitButton" aria-label="Upload" name="userfile[]" webkitdirectory multiple>
+                <button class="btn btn-outline-secondary" type="submit" id="submitButton">Upload</button>
                 <input type="hidden" name="form_folder" value="upload">
             </div>
         </form>
 
         <?php
             require_once __DIR__.'/vendor/autoload.php';
+
+            ini_set('log_errors', 1);
+            ini_set('error_log', __DIR__.'/logs/error.log');
 
             if(isset($_POST['form_folder'])&&($_POST['form_folder'] == 'upload')){
                 if(!empty(array_filter(($_FILES['userfile']['name'])))){
@@ -39,7 +42,7 @@
                         }
                     }
 
-                    foreach($_FILES['userfile']['full_path'] as $k => $v){
+                    foreach($_FILES['userfile']['name'] as $k => $v){
                         if(str_contains($v,'prater_order')){
                             $pdfFile = $v;
                             $pdfTmpPath = $k;
@@ -133,10 +136,18 @@
                     echo '</table>';
 
                     $copyData = implode('\n',$copyData);
-                    exec('echo ' . escapeshellarg($copyData) . ' | pbcopy');
                 }
             }
             ?>
-    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        const copyData = '<?= isset($copyData) ? $copyData : '';?>';
+        const submitButton = document.getElementById('submitButton');
+
+        if(copyData){
+            submitButton.addEventListener('click', () =>{
+                navigator.clipboard.writeText(copyData);
+            });
+        }
+    </script>
     </body>
 </html>
