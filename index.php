@@ -14,10 +14,11 @@
         <title>Pratercard</title>
     </head>
     <body>
+        <div class="w-75 mx-auto my-5">
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="uploadForm">
-            <div class="input-group w-75 mx-auto my-5">
-                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="submitButton" aria-label="Upload" name="userfile[]" webkitdirectory multiple>
-                <button class="btn btn-outline-secondary" type="submit" id="submitButton">Upload</button>
+            <div class="input-group">
+                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFile04" aria-label="Upload" name="userfile[]" webkitdirectory multiple>
+                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFile04">Upload</button>
                 <input type="hidden" name="form_folder" value="upload">
             </div>
         </form>
@@ -88,7 +89,7 @@
                     $emailAdress = $emailAdress[1];
 
 
-                    echo '<table class="table table-hover m-3">';
+                    echo '<table class="table table-hover my-3">';
                     echo '<tr>';
                     echo '<th>Typ</th>';
                     echo '<th>Kartennummer</th>';
@@ -136,18 +137,28 @@
                     echo '</table>';
 
                     $copyData = implode('\n',$copyData);
+
+                    echo '<button class="btn btn-outline-secondary" id="copyButton">Copy</button>';
                 }
             }
             ?>
+        </div>
+
     <script>
         const copyData = '<?= isset($copyData) ? $copyData : '';?>';
-        const submitButton = document.getElementById('submitButton');
-
+        const submitButton = document.getElementById('copyButton');
+        
         if(copyData){
             submitButton.addEventListener('click', () =>{
-                navigator.clipboard.writeText(copyData);
+                const textArea = document.createElement('textArea');
+                textArea.value = copyData;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
             });
         }
+
     </script>
     </body>
 </html>
